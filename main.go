@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/mhasnanr/e-wallet/bootstrap"
+	"github.com/mhasnanr/e-wallet/cmd"
 )
 
 func main() {
@@ -20,4 +21,6 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to connect database")
 	}
+
+	cmd.ServeHTTP()
 }
