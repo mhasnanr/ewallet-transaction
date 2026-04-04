@@ -22,5 +22,6 @@ func main() {
 		log.Fatalf("failed to connect database")
 	}
 
+	go cmd.ServeGRPC()
 	cmd.ServeHTTP()
 }
