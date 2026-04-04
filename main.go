@@ -1,12 +1,17 @@
 package main
 
 import (
-	"fmt"
+	"log"
 
 	"github.com/mhasnanr/e-wallet/bootstrap"
 )
 
 func main() {
-	bootstrap.SetupConfig()
-	fmt.Println(bootstrap.GetEnv("DB_NAME", ""))
+	if err := bootstrap.SetupZapLogger(); err != nil {
+		log.Fatal("failed to initialize logger")
+	}
+
+	if err := bootstrap.SetupConfig(".env"); err != nil {
+		log.Fatalf("failed to load config file")
+	}
 }
