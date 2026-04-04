@@ -16,11 +16,7 @@ func main() {
 		log.Fatalf("failed to load config file")
 	}
 
-	dsn := bootstrap.GetEnv("CONNECTION_STRING", "")
-	_, err := bootstrap.SetupDatabase(dsn)
-	if err != nil {
-		log.Fatalf("failed to connect database")
-	}
+	bootstrap.SetupDatabase()
 
 	go cmd.ServeGRPC()
 	cmd.ServeHTTP()
