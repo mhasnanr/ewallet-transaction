@@ -14,4 +14,10 @@ func main() {
 	if err := bootstrap.SetupConfig(".env"); err != nil {
 		log.Fatalf("failed to load config file")
 	}
+
+	dsn := bootstrap.GetEnv("CONNECTION_STRING", "")
+	_, err := bootstrap.SetupDatabase(dsn)
+	if err != nil {
+		log.Fatalf("failed to connect database")
+	}
 }
