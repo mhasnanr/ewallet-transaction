@@ -6,10 +6,13 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/mhasnanr/e-wallet/bootstrap"
+	"github.com/mhasnanr/e-wallet/internal/middleware"
 )
 
 func ServeHTTP() {
-	r := gin.Default()
+	r := gin.New()
+
+	r.Use(middleware.LoggerMiddleware(bootstrap.Log))
 
 	r.GET("/", func(c *gin.Context) {
 		c.JSON(200, gin.H{"message": "server is healthy"})
