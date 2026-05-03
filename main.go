@@ -3,8 +3,8 @@ package main
 import (
 	"log"
 
-	"github.com/mhasnanr/e-wallet/bootstrap"
-	"github.com/mhasnanr/e-wallet/cmd"
+	"github.com/mhasnanr/ewallet-transaction/bootstrap"
+	"github.com/mhasnanr/ewallet-transaction/cmd"
 )
 
 func main() {
@@ -16,8 +16,6 @@ func main() {
 		log.Fatalf("failed to load config file")
 	}
 
-	bootstrap.SetupDatabase()
-
 	go cmd.ServeGRPC()
-	cmd.ServeHTTP()
+	cmd.ServeHTTP(bootstrap.DB)
 }
