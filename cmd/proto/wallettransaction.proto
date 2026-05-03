@@ -1,12 +1,12 @@
-// protoc --go_out=. --go-grpc_out=. cmd/proto/wallet.proto
+// protoc --go_out=. --go-grpc_out=. cmd/proto/wallettransaction.proto
 
 syntax = "proto3";
 
-package wallet;
+package walletTransaction;
 
-option go_package = "cmd/wallet";
+option go_package = "cmd/walletTransaction";
 
-service Wallet {
+service WalletTransaction {
     rpc CreditBalance(WalletRequest) returns (WalletResponse);
     rpc DebitBalance(WalletRequest) returns (WalletResponse);
 }

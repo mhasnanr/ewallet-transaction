@@ -5,14 +5,14 @@ import (
 	"errors"
 
 	"github.com/mhasnanr/ewallet-transaction/bootstrap"
-	pb "github.com/mhasnanr/ewallet-transaction/cmd/wallet"
+	pb "github.com/mhasnanr/ewallet-transaction/cmd/walletTransaction"
 	"github.com/mhasnanr/ewallet-transaction/internal/models"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
 
 type WalletGRPC struct {
-	client pb.WalletClient
+	client pb.WalletTransactionClient
 }
 
 func NewWalletGRPC() (*WalletGRPC, *grpc.ClientConn, error) {
@@ -23,7 +23,7 @@ func NewWalletGRPC() (*WalletGRPC, *grpc.ClientConn, error) {
 		return nil, nil, errors.New("failed to dial ums grpc")
 	}
 
-	client := pb.NewWalletClient(conn)
+	client := pb.NewWalletTransactionClient(conn)
 
 	return &WalletGRPC{
 		client: client,
