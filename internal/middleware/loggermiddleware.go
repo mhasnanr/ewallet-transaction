@@ -4,7 +4,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/mhasnanr/e-wallet/bootstrap"
+	"github.com/mhasnanr/ewallet-transaction/bootstrap"
 	"go.uber.org/zap"
 )
 
