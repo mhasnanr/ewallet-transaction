@@ -25,9 +25,10 @@ const (
 
 type TransactionRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Amount        int64                  `protobuf:"varint,1,opt,name=amount,proto3" json:"amount,omitempty"`
-	Type          string                 `protobuf:"bytes,2,opt,name=type,proto3" json:"type,omitempty"`
-	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	UserID        int64                  `protobuf:"varint,1,opt,name=userID,proto3" json:"userID,omitempty"`
+	Amount        int64                  `protobuf:"varint,2,opt,name=amount,proto3" json:"amount,omitempty"`
+	Type          string                 `protobuf:"bytes,3,opt,name=type,proto3" json:"type,omitempty"`
+	Description   string                 `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -60,6 +61,13 @@ func (x *TransactionRequest) ProtoReflect() protoreflect.Message {
 // Deprecated: Use TransactionRequest.ProtoReflect.Descriptor instead.
 func (*TransactionRequest) Descriptor() ([]byte, []int) {
 	return file_cmd_proto_transaction_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *TransactionRequest) GetUserID() int64 {
+	if x != nil {
+		return x.UserID
+	}
+	return 0
 }
 
 func (x *TransactionRequest) GetAmount() int64 {
@@ -199,11 +207,12 @@ var File_cmd_proto_transaction_proto protoreflect.FileDescriptor
 
 const file_cmd_proto_transaction_proto_rawDesc = "" +
 	"\n" +
-	"\x1bcmd/proto/transaction.proto\x12\vtransaction\"b\n" +
+	"\x1bcmd/proto/transaction.proto\x12\vtransaction\"z\n" +
 	"\x12TransactionRequest\x12\x16\n" +
-	"\x06amount\x18\x01 \x01(\x03R\x06amount\x12\x12\n" +
-	"\x04type\x18\x02 \x01(\tR\x04type\x12 \n" +
-	"\vdescription\x18\x03 \x01(\tR\vdescription\"a\n" +
+	"\x06userID\x18\x01 \x01(\x03R\x06userID\x12\x16\n" +
+	"\x06amount\x18\x02 \x01(\x03R\x06amount\x12\x12\n" +
+	"\x04type\x18\x03 \x01(\tR\x04type\x12 \n" +
+	"\vdescription\x18\x04 \x01(\tR\vdescription\"a\n" +
 	"\x13TransactionResponse\x12\x18\n" +
 	"\amessage\x18\x01 \x01(\tR\amessage\x120\n" +
 	"\x04data\x18\x02 \x01(\v2\x1c.transaction.TransactionDataR\x04data\"[\n" +
