@@ -5,11 +5,16 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/mhasnanr/e-wallet/bootstrap"
-	"github.com/mhasnanr/e-wallet/internal/middleware"
+	"github.com/mhasnanr/ewallet-transaction/bootstrap"
+	"github.com/mhasnanr/ewallet-transaction/external"
+	handler "github.com/mhasnanr/ewallet-transaction/internal/handler/http"
+	"github.com/mhasnanr/ewallet-transaction/internal/middleware"
+	"github.com/mhasnanr/ewallet-transaction/internal/repository"
+	"github.com/mhasnanr/ewallet-transaction/internal/services"
+	"gorm.io/gorm"
 )
 
-func ServeHTTP() {
+func ServeHTTP(db *gorm.DB) {
 	r := gin.New()
 
 	r.Use(middleware.LoggerMiddleware(bootstrap.Log))
@@ -17,6 +22,25 @@ func ServeHTTP() {
 	r.GET("/", func(c *gin.Context) {
 		c.JSON(200, gin.H{"message": "server is healthy"})
 	})
+
+	userGRPCClient, userConn, err := external.NewUserGRPC()
+	if err != nil {
+		log.Fatalf("failed to initialized user gRPC: %v", err)
+	}
+	defer userConn.Close()
+
+	walletGRPCClient, walletConn, err := external.NewWalletGRPC()
+	if err != nil {
+		log.Fatalf("failed to initialized wallet gRPC: %v", err)
+	}
+	defer walletConn.Close()
+
+	authMiddleware := middleware.NewAuthMiddleware(userGRPCClient)
+	transactionRepository := repository.NewTransactionRepository(db)
+	transactionService := services.NewTransactionService(transactionRepository, walletGRPCClient)
+	transactionHandler := handler.NewTransactionHandler(transactionService, authMiddleware)
+
+	transactionHandler.RegisterRoute(r)
 
 	server := &http.Server{Addr: ":" + bootstrap.GetEnv("HTTP_PORT", "8080"), Handler: r}
 

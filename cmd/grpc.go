@@ -5,7 +5,7 @@ import (
 	"log"
 	"net"
 
-	"github.com/mhasnanr/e-wallet/bootstrap"
+	"github.com/mhasnanr/ewallet-transaction/bootstrap"
 	"google.golang.org/grpc"
 )
 
