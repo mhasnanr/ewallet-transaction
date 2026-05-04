@@ -30,7 +30,7 @@ func (t *Transaction) CreateTransaction(ctx context.Context, request *pb.Transac
 		Description: request.GetDescription(),
 	}
 
-	res, err := t.svc.CreateTransaction(ctx, int(request.GetUserID()), transactionReq)
+	res, err := t.svc.CreateTransaction(ctx, int(request.GetUserId()), transactionReq)
 	if err != nil {
 		return nil, err
 	}

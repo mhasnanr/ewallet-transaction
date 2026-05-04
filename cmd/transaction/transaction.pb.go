@@ -25,7 +25,7 @@ const (
 
 type TransactionRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserID        int64                  `protobuf:"varint,1,opt,name=userID,proto3" json:"userID,omitempty"`
+	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	Amount        int64                  `protobuf:"varint,2,opt,name=amount,proto3" json:"amount,omitempty"`
 	Type          string                 `protobuf:"bytes,3,opt,name=type,proto3" json:"type,omitempty"`
 	Description   string                 `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
@@ -63,9 +63,9 @@ func (*TransactionRequest) Descriptor() ([]byte, []int) {
 	return file_cmd_proto_transaction_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *TransactionRequest) GetUserID() int64 {
+func (x *TransactionRequest) GetUserId() int64 {
 	if x != nil {
-		return x.UserID
+		return x.UserId
 	}
 	return 0
 }
@@ -207,9 +207,9 @@ var File_cmd_proto_transaction_proto protoreflect.FileDescriptor
 
 const file_cmd_proto_transaction_proto_rawDesc = "" +
 	"\n" +
-	"\x1bcmd/proto/transaction.proto\x12\vtransaction\"z\n" +
-	"\x12TransactionRequest\x12\x16\n" +
-	"\x06userID\x18\x01 \x01(\x03R\x06userID\x12\x16\n" +
+	"\x1bcmd/proto/transaction.proto\x12\vtransaction\"{\n" +
+	"\x12TransactionRequest\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x16\n" +
 	"\x06amount\x18\x02 \x01(\x03R\x06amount\x12\x12\n" +
 	"\x04type\x18\x03 \x01(\tR\x04type\x12 \n" +
 	"\vdescription\x18\x04 \x01(\tR\vdescription\"a\n" +

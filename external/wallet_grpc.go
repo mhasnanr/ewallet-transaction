@@ -32,7 +32,7 @@ func NewWalletGRPC() (*WalletGRPC, *grpc.ClientConn, error) {
 
 func (e *WalletGRPC) DebitTransaction(ctx context.Context, userID int, req models.WalletRequest) error {
 	request := &pb.WalletRequest{
-		UserID:    int64(userID),
+		UserId:    int64(userID),
 		Amount:    int64(req.Amount),
 		Reference: req.Reference,
 	}
@@ -47,7 +47,7 @@ func (e *WalletGRPC) DebitTransaction(ctx context.Context, userID int, req model
 
 func (e *WalletGRPC) CreditTransaction(ctx context.Context, userID int, req models.WalletRequest) error {
 	request := &pb.WalletRequest{
-		UserID:    int64(userID),
+		UserId:    int64(userID),
 		Amount:    int64(req.Amount),
 		Reference: req.Reference,
 	}
