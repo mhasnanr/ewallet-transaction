@@ -16,6 +16,8 @@ func main() {
 		log.Fatalf("failed to load config file")
 	}
 
+	bootstrap.SetupDatabase()
+
 	go cmd.ServeGRPC()
 	cmd.ServeHTTP(bootstrap.DB)
 }

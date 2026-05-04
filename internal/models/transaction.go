@@ -7,15 +7,15 @@ import (
 )
 
 type Transaction struct {
-	ID          int    `gorm:"primaryKey"`
-	UserID      int    `gorm:"user_id"`
-	Amount      int64  `gorm:"column:amount"`
-	Type        string `gorm:"column:type"`
-	Status      string `gorm:"column:status"`
-	Reference   string `gorm:"column:reference"`
-	Description string `gorm:"column:description"`
-	CreatedAt   time.Time
-	UpdatedAt   time.Time
+	ID          int       `gorm:"primaryKey"`
+	UserID      int       `gorm:"column:user_id"`
+	Amount      int64     `gorm:"column:amount"`
+	Type        string    `gorm:"column:type"`
+	Status      string    `gorm:"column:status"`
+	Reference   string    `gorm:"column:reference"`
+	Description string    `gorm:"column:description"`
+	CreatedAt   time.Time `gorm:"column:created_at;type:timestamptz;default:now()"`
+	UpdatedAt   time.Time `gorm:"column:updated_at;type:timestamptz;default:now()"`
 }
 
 func (*Transaction) TableName() string {

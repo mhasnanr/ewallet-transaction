@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 
@@ -42,8 +43,10 @@ func ServeHTTP(db *gorm.DB) {
 
 	transactionHandler.RegisterRoute(r)
 
-	server := &http.Server{Addr: ":" + bootstrap.GetEnv("HTTP_PORT", "8080"), Handler: r}
+	httpPort := bootstrap.GetEnv("HTTP_PORT", "8080")
+	server := &http.Server{Addr: ":" + httpPort, Handler: r}
 
+	fmt.Printf("http server is running on port %s...\n", httpPort)
 	if err := server.ListenAndServe(); err != nil {
 		log.Fatal("server stopped")
 	}
