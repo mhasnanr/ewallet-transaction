@@ -2,13 +2,12 @@ package middleware
 
 import (
 	"context"
-	"net/http"
 	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/mhasnanr/ewallet-transaction/bootstrap"
 	pb "github.com/mhasnanr/ewallet-transaction/cmd/tokenvalidation"
-	"github.com/mhasnanr/ewallet-transaction/helpers"
+	"github.com/mhasnanr/ewallet-transaction/constants"
 	"github.com/mhasnanr/ewallet-transaction/internal/models"
 )
 
@@ -28,9 +27,10 @@ func (m *AuthMiddleware) MiddlewareAccessToken(c *gin.Context) {
 	var log = bootstrap.Log
 
 	auth := c.Request.Header.Get("Authorization")
-	if auth == "" || !strings.HasPrefix(auth, "Bearer ") {
-		log.Infow("authorization empty or invalid format")
-		helpers.SendResponseHTTP(c, http.StatusUnauthorized, "unauthorized", nil)
+
+	if !strings.HasPrefix(auth, "Bearer ") {
+		log.Infow("invalid or missing bearer token")
+		c.Error(constants.ErrorUnauthorized)
 		c.Abort()
 		return
 	}
@@ -38,7 +38,7 @@ func (m *AuthMiddleware) MiddlewareAccessToken(c *gin.Context) {
 	token := strings.TrimPrefix(auth, "Bearer ")
 	if token == "" {
 		log.Infow("invalid token")
-		helpers.SendResponseHTTP(c, http.StatusUnauthorized, "unauthorized", nil)
+		c.Error(constants.ErrorUnauthorized)
 		c.Abort()
 		return
 	}
@@ -46,7 +46,7 @@ func (m *AuthMiddleware) MiddlewareAccessToken(c *gin.Context) {
 	user, err := m.userGRPC.ValidateToken(c.Request.Context(), token)
 	if err != nil {
 		log.Infow("invalid token")
-		helpers.SendResponseHTTP(c, http.StatusUnauthorized, "unauthorized", nil)
+		c.Error(constants.ErrorUnauthorized)
 		c.Abort()
 		return
 	}
@@ -54,7 +54,7 @@ func (m *AuthMiddleware) MiddlewareAccessToken(c *gin.Context) {
 	userData := user.GetData()
 	if userData == nil {
 		log.Infow("failed to parse user data")
-		helpers.SendResponseHTTP(c, http.StatusInternalServerError, "failed to parse user", nil)
+		c.Error(constants.ErrorFailedToParseUser)
 		c.Abort()
 		return
 	}
