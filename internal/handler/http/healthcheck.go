@@ -7,8 +7,7 @@ import (
 	"github.com/mhasnanr/ewallet-transaction/helpers"
 )
 
-type HealthCheck struct {
-}
+type HealthCheck struct{}
 
 func NewHealthCheck() *HealthCheck {
 	return &HealthCheck{}
