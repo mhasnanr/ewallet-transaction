@@ -20,6 +20,7 @@ func ServeHTTP(db *gorm.DB) {
 
 	r.Use(
 		middleware.LoggerMiddleware(bootstrap.Log),
+		middleware.MetricMiddleware(),
 		middleware.ErrorMiddleware(),
 	)
 

@@ -19,7 +19,8 @@ func main() {
 
 	ctx := context.Background()
 	serviceName := bootstrap.GetEnv("SERVICE_NAME", "ewallet-transaction")
-	shutdown, err := bootstrap.SetupOTel(ctx, serviceName)
+	endpoint := bootstrap.GetEnv("OTELExporterOTLPEndpoint", "http://otel-collector:4318")
+	shutdown, err := bootstrap.SetupOTel(ctx, serviceName, endpoint)
 	if err != nil {
 		log.Fatalf("failed to setup otel: %v", err)
 	}

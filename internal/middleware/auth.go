@@ -29,7 +29,7 @@ func (m *AuthMiddleware) MiddlewareAccessToken(c *gin.Context) {
 	auth := c.Request.Header.Get("Authorization")
 
 	if !strings.HasPrefix(auth, "Bearer ") {
-		log.Infow("invalid or missing bearer token")
+		log.Errorw("invalid or missing bearer token")
 		c.Error(constants.ErrorUnauthorized)
 		c.Abort()
 		return
@@ -37,7 +37,7 @@ func (m *AuthMiddleware) MiddlewareAccessToken(c *gin.Context) {
 
 	token := strings.TrimPrefix(auth, "Bearer ")
 	if token == "" {
-		log.Infow("invalid token")
+		log.Errorw("invalid token")
 		c.Error(constants.ErrorUnauthorized)
 		c.Abort()
 		return
@@ -45,7 +45,7 @@ func (m *AuthMiddleware) MiddlewareAccessToken(c *gin.Context) {
 
 	user, err := m.userGRPC.ValidateToken(c.Request.Context(), token)
 	if err != nil {
-		log.Infow("invalid token")
+		log.Errorw("invalid token")
 		c.Error(constants.ErrorUnauthorized)
 		c.Abort()
 		return
@@ -53,7 +53,7 @@ func (m *AuthMiddleware) MiddlewareAccessToken(c *gin.Context) {
 
 	userData := user.GetData()
 	if userData == nil {
-		log.Infow("failed to parse user data")
+		log.Errorw("failed to parse user data")
 		c.Error(constants.ErrorFailedToParseUser)
 		c.Abort()
 		return
